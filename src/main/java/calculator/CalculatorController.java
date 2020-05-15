@@ -16,6 +16,7 @@ public class CalculatorController {
     private double number1;
     private String operator = "";
     private boolean isFraction = false;
+    private boolean inNumber = false;
 
     @FXML
     private void initialize() {
@@ -32,6 +33,7 @@ public class CalculatorController {
             display.setText(display.getText() + digitPressed);
         }
         startNumber = false;
+        inNumber = true;
     }
 
     @FXML
@@ -46,7 +48,7 @@ public class CalculatorController {
            double result = calculator.calculate(number1, number2, operator);
            if(result == (long) result) {
                display.setText(String.format("%d",(long) result));
-           } else display.setText(String.format("%s", result));
+           } else display.setText(String.format("%.3g", result));
            operator = "";
         } else {
             if (! operator.isEmpty()) {
@@ -56,6 +58,7 @@ public class CalculatorController {
             operator = operatorPressed;
             startNumber = true;
             isFraction = false;
+            inNumber = false;
         }
     }
 
@@ -64,6 +67,8 @@ public class CalculatorController {
         String acPressed = ((Button) event.getSource()).getText();
         System.out.println(acPressed);
         startNumber = true;
+        isFraction = false;
+        inNumber = false;
         operator = "";
         display.setText("0");
     }
@@ -72,11 +77,22 @@ public class CalculatorController {
     public void processDot(ActionEvent event) {
         String dotPressed = ((Button) event.getSource()).getText();
         System.out.println(dotPressed);
-        if(isFraction) {
+        if(isFraction || !inNumber) {
             return;
         }
         display.setText(display.getText() + ".");
         isFraction = true;
+    }
+
+    @FXML
+    public void plusMinus(ActionEvent event) {
+        String pmPressed = ((Button) event.getSource()).getText();
+        System.out.println(pmPressed);
+        if(display.getText().charAt(0) == '-') {
+            display.setText(display.getText().substring(1));
+        } else if(display.getText().equals("0")) {
+            return;
+        } else display.setText("-" + display.getText());
     }
 
 }
