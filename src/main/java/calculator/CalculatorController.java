@@ -15,6 +15,7 @@ public class CalculatorController {
     private boolean startNumber = true;
     private double number1;
     private String operator = "";
+    private boolean isFraction = false;
 
     @FXML
     private void initialize() {
@@ -54,6 +55,7 @@ public class CalculatorController {
             number1 = Double.parseDouble(display.getText());
             operator = operatorPressed;
             startNumber = true;
+            isFraction = false;
         }
     }
 
@@ -70,7 +72,11 @@ public class CalculatorController {
     public void processDot(ActionEvent event) {
         String dotPressed = ((Button) event.getSource()).getText();
         System.out.println(dotPressed);
+        if(isFraction) {
+            return;
+        }
         display.setText(display.getText() + ".");
+        isFraction = true;
     }
 
 }
