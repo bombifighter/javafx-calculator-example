@@ -43,7 +43,9 @@ public class CalculatorController {
            }
            double number2 = Double.parseDouble(display.getText());
            double result = calculator.calculate(number1, number2, operator);
-           display.setText(String.format("%.0f", result));
+           if(result == (long) result) {
+               display.setText(String.format("%d",(long) result));
+           } else display.setText(String.format("%s", result));
            operator = "";
         } else {
             if (! operator.isEmpty()) {
@@ -62,6 +64,13 @@ public class CalculatorController {
         startNumber = true;
         operator = "";
         display.setText("0");
+    }
+
+    @FXML
+    public void processDot(ActionEvent event) {
+        String dotPressed = ((Button) event.getSource()).getText();
+        System.out.println(dotPressed);
+        display.setText(display.getText() + ".");
     }
 
 }
