@@ -55,4 +55,13 @@ public class CalculatorController {
         }
     }
 
+    @FXML
+    public void clearDisplay(ActionEvent event) {
+        String acPressed = ((Button) event.getSource()).getText();
+        System.out.println(acPressed);
+        startNumber = true;
+        operator = "";
+        display.setText("0");
+    }
+
 }
